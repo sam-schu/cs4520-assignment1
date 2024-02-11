@@ -12,7 +12,6 @@ import com.cs4520.assignment1.databinding.LoginFragmentBinding
 import com.cs4520.assignment1.logic.Authenticator
 
 class LoginFragment : Fragment() {
-
     private lateinit var binding: LoginFragmentBinding
     private lateinit var auth: Authenticator
 
