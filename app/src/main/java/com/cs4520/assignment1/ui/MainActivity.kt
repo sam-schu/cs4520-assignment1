@@ -1,8 +1,6 @@
 package com.cs4520.assignment1.ui
 
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.cs4520.assignment1.R
 
