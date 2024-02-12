@@ -1,5 +1,6 @@
 package com.cs4520.assignment1.ui
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.cs4520.assignment1.R
 import com.cs4520.assignment1.databinding.ProductListFragmentBinding
 import com.cs4520.assignment1.databinding.ProductListItemBinding
+import com.cs4520.assignment1.logic.EquipmentProduct
+import com.cs4520.assignment1.logic.FoodProduct
 import com.cs4520.assignment1.logic.Product
 import com.cs4520.assignment1.logic.ProductManager
 import com.cs4520.assignment1.productsDataset
@@ -40,31 +44,46 @@ class ProductListFragment : Fragment() {
 private class RecyclerViewAdapter(private val products: List<Product>) :
     RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View, val binding: ProductListItemBinding) :
+    class ViewHolder(val view: View, val binding: ProductListItemBinding) :
         RecyclerView.ViewHolder(view) {
 
-        fun bind(test: Int) {
+        fun bind(product: Product) {
+            with (binding) {
+                when (product) {
+                    is EquipmentProduct -> {
+                        productImage.setImageResource(R.drawable.equipment)
+                        constraintLayout.setBackgroundResource(R.color.product_equipment_background)
+                    }
+                    is FoodProduct -> {
+                        productImage.setImageResource(R.drawable.food)
+                        constraintLayout.setBackgroundResource(R.color.product_food_background)
+                    }
+                }
 
+                productName.text = product.name
+
+                if (product.expiryDate == null) {
+                    productExpiryDate.visibility = View.GONE
+                } else {
+                    productExpiryDate.visibility = View.VISIBLE
+                    productExpiryDate.text = product.expiryDate
+                }
+
+                productPrice.text = view.context.getString(
+                    R.string.product_price_text, product.price
+                )
+            }
         }
     }
 
-    /*class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val textView = view.findViewById<TextView>(R.id.test)
-        fun bind(test: Int) {
-            textView.text = test.toString()
-        }
-    }*/
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        ProductListItemBinding.inflate(LayoutInflater.from(parent.context)).let {
+        ProductListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false).let {
             return ViewHolder(it.root, it)
         }
-        /*val view = LayoutInflater.from(parent.context).inflate(R.layout.product_list_item, parent, false)
-        return ViewHolder(view)*/
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(position)
+        holder.bind(products[position])
     }
 
     override fun getItemCount(): Int = products.size
