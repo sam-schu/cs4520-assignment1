@@ -1,10 +1,6 @@
 package com.cs4520.assignment1.logic
 
-data class Product(val name: String, val type: Type, val expiryDate: String?, val price: Int) {
-    enum class Type {
-        EQUIPMENT,
-        FOOD
-    }
+sealed class Product(val name: String, val expiryDate: String?, val price: Int) {
 
     companion object {
         fun fromDataList(data: List<Any?>): Product {
@@ -18,9 +14,9 @@ data class Product(val name: String, val type: Type, val expiryDate: String?, va
                 "The first data item (the product name) must be a String"
             )
 
-            val type = when (data[1]) {
-                "Equipment" -> Type.EQUIPMENT
-                "Food" -> Type.FOOD
+            val subclassConstructor = when (data[1]) {
+                "Equipment" -> ::EquipmentProduct
+                "Food" -> ::FoodProduct
                 else -> throw IllegalArgumentException(
                     "The second data item (the product type) must be either \"Equipment\" or "
                     + "\"Food\""
@@ -37,10 +33,14 @@ data class Product(val name: String, val type: Type, val expiryDate: String?, va
                 "The fourth data item (the price) must be an Int"
             )
 
-            return Product(name, type, expiryDate, price)
+            return subclassConstructor(name, expiryDate, price)
         }
     }
 }
+
+class FoodProduct(name: String, expiryDate: String?, price: Int) : Product(name, expiryDate, price)
+
+class EquipmentProduct(name: String, expiryDate: String?, price: Int) : Product(name, expiryDate, price)
 
 class ProductManager() {
     private val products: MutableList<Product> = mutableListOf()
