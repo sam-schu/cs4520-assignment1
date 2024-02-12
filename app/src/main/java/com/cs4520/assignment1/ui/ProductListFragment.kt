@@ -44,7 +44,7 @@ private class RecyclerViewAdapter(private val products: List<Product>) :
         RecyclerView.ViewHolder(view) {
 
         fun bind(test: Int) {
-            binding.test.text = test.toString()
+
         }
     }
 
@@ -67,5 +67,5 @@ private class RecyclerViewAdapter(private val products: List<Product>) :
         holder.bind(position)
     }
 
-    override fun getItemCount(): Int = products.size * 10
+    override fun getItemCount(): Int = products.size
 }
