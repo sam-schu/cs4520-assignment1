@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="product_equipment_background">#E06666</color>
     <color name="product_food_background">#FFD965</color>
+    <color name="product_text_color">#000000</color>
 </resources>
