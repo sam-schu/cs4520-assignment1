@@ -1,8 +1,23 @@
 package com.cs4520.assignment1.logic
 
+/**
+ * Represents a single product (equipment or food).
+ */
 sealed class Product(val name: String, val expiryDate: String?, val price: Int) {
 
     companion object {
+        /**
+         * Returns a Product generated from the given list with the following elements:
+         * 0: product name (String)
+         * 1: product type ("Equipment" or "Food")
+         * 2: product expiry date (String), or null if none
+         * 3: product price (Int)
+         *
+         * The returned Product will be either an EquipmentProduct or a FoodProduct, depending on
+         * the product type.
+         *
+         * @throws IllegalArgumentException if the aforementioned list structure is not followed.
+         */
         fun fromDataList(data: List<Any?>): Product {
             if (data.size != 4) {
                 throw IllegalArgumentException(
@@ -38,34 +53,44 @@ sealed class Product(val name: String, val expiryDate: String?, val price: Int) 
     }
 }
 
+/**
+ * Represents a product of the "Equipment" type.
+ *
+ * Contains a name, a price, and possibly an expiry date.
+ */
+class EquipmentProduct(name: String, expiryDate: String?, price: Int) :
+    Product(name, expiryDate, price)
+
+/**
+ * Represents a product of the "Food" type.
+ *
+ * Contains a name, a price, and possibly an expiry date.
+ */
 class FoodProduct(name: String, expiryDate: String?, price: Int) : Product(name, expiryDate, price)
 
-class EquipmentProduct(name: String, expiryDate: String?, price: Int) : Product(name, expiryDate, price)
-
+/**
+ * Manages a list of products and allows products to be mass imported from a list.
+ */
 class ProductManager() {
     private val products: MutableList<Product> = mutableListOf()
 
+    /**
+     * Adds products to the product manager, using data from the given list. Each list element
+     * should be a list representing a single product and containing the following elements:
+     * 0: product name (String)
+     * 1: product type ("Equipment" or "Food")
+     * 2: product expiry date (String), or null if none
+     * 3: product price (Int)
+     *
+     * @throws IllegalArgumentException if the aforementioned list structure is not followed for all
+     *     products.
+     */
     fun importProductData(data: List<List<Any?>>) {
         products.addAll(data.map { Product.fromDataList(it) })
     }
 
+    /**
+     * Returns a copy of the list of all products held by the product manager.
+     */
     fun getAllProducts(): List<Product> = products.toList()
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

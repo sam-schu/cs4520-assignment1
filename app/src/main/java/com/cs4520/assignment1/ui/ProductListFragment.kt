@@ -1,6 +1,5 @@
 package com.cs4520.assignment1.ui
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +16,9 @@ import com.cs4520.assignment1.logic.Product
 import com.cs4520.assignment1.logic.ProductManager
 import com.cs4520.assignment1.productsDataset
 
+/**
+ * The fragment displaying the list of products.
+ */
 class ProductListFragment : Fragment() {
     private lateinit var binding: ProductListFragmentBinding
     private lateinit var productManager: ProductManager
@@ -41,12 +43,21 @@ class ProductListFragment : Fragment() {
     }
 }
 
+/**
+ * The adapter for the RecyclerView displaying the list of products.
+ */
 private class RecyclerViewAdapter(private val products: List<Product>) :
     RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
+    /**
+     * The ViewHolder for each item in the RecyclerView.
+     */
     class ViewHolder(val view: View, val binding: ProductListItemBinding) :
         RecyclerView.ViewHolder(view) {
 
+        /**
+         * Updates the view to represent the given product's information.
+         */
         fun bind(product: Product) {
             with (binding) {
                 when (product) {
